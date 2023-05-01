@@ -32,7 +32,7 @@ app.get("/borrow", (req, res) => {
 
   dynamoDb.scan(params, (error, data) => {
     if (error) {
-      res.status(500).json({ error: "Error fetching borrowings" });
+      res.status(500).json({ error: "Error fetching borrowings" + error});
     } else {
       res.json(data.Items);
     }
@@ -50,7 +50,7 @@ app.get("/borrow/:borrowId", (req, res) => {
 
   dynamoDb.get(params, (error, data) => {
     if (error) {
-      res.status(500).json({ error: "Error fetching borrowing" });
+      res.status(500).json({ error: "Error fetching borrowing" + error});
     } else {
       res.json(data.Item);
     }
@@ -110,7 +110,7 @@ app.post("/books/borrow", async (req, res) => {
 
     res.json(borrowedBooks);
   } catch (error) {
-    res.status(500).json({ error: "Error borrowing books" });
+    res.status(500).json({ error: "Error borrowing books" + error});
   }
 });
 
@@ -190,7 +190,7 @@ app.post("/books/return", async (req, res) => {
 
     res.json(returnedBooks);
   } catch (error) {
-    res.status(500).json({ error: "Error returning books" });
+    res.status(500).json({ error: "Error returning books" + error});
   }
 });
 
@@ -205,7 +205,7 @@ app.delete("/borrow/:borrowId", (req, res) => {
 
   dynamoDb.delete(params, (error) => {
     if (error) {
-      res.status(500).json({ error: "Error deleting borrowing" });
+      res.status(500).json({ error: "Error deleting borrowing" + error});
     } else {
       res.json({ success: true });
     }
