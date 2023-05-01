@@ -19,13 +19,13 @@ AWS.config.update({
 });
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const tableName = "Borrowing";
+const tableName = "borrow";
 
 // Define your API routes here
 // ... (previous code)
 
 // List all borrowings
-app.get("/borrowings", (req, res) => {
+app.get("/borrow", (req, res) => {
   const params = {
     TableName: tableName,
   };
@@ -40,7 +40,7 @@ app.get("/borrowings", (req, res) => {
 });
 
 // Get a single borrowing by ID
-app.get("/borrowings/:borrowId", (req, res) => {
+app.get("/borrow/:borrowId", (req, res) => {
   const params = {
     TableName: tableName,
     Key: {
@@ -91,7 +91,7 @@ app.post("/books/borrow", async (req, res) => {
       await dynamoDb.put(borrowRecordParams).promise();
 
       const bookParams = {
-        TableName: "Book",
+        TableName: "books",
         Key: { id: bookId },
         UpdateExpression: "SET available = :available",
         ExpressionAttributeValues: { ":available": false },
@@ -145,7 +145,7 @@ app.post("/books/return", async (req, res) => {
       totalLateFine += lateFine;
 
       const bookParams = {
-        TableName: "Book",
+        TableName: "books",
         Key: { id: bookId },
         UpdateExpression: "SET available = :available",
         ExpressionAttributeValues: { ":available": true },
@@ -195,7 +195,7 @@ app.post("/books/return", async (req, res) => {
 });
 
 // Delete a borrowing
-app.delete("/borrowings/:borrowId", (req, res) => {
+app.delete("/borrow/:borrowId", (req, res) => {
   const params = {
     TableName: tableName,
     Key: {

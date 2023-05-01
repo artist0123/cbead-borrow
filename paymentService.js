@@ -14,7 +14,7 @@ const savePaymentRecord = async (amount, userId, workspaceId, equipmentIds, late
   const timestamp = new Date().toISOString();
 
   const params = {
-    TableName: 'PaymentRecords',
+    TableName: 'payments',
     Item: {
       paymentId,
       timestamp,
