@@ -15,7 +15,8 @@ app.use(bodyParser.json());
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+  sessionToken: process.env.AWS_SESSION_TOKEN,
+  region: "us-east-1",
 });
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -157,7 +158,7 @@ app.post("/books/return", async (req, res) => {
 
       // Update the borrow record with the return date and the late fine (if any) for each book
       const updateBorrowRecordParams = {
-        TableName: "BorrowRecords",
+        TableName: "borrow",
         Key: { userId, bookId },
         UpdateExpression: "SET returnDate = :returnDate, lateFine = :lateFine",
         ExpressionAttributeValues: {
