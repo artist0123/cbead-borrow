@@ -10,13 +10,13 @@ const processPayment = (amount, paymentInfo) => {
 };
 
 const savePaymentRecord = async (amount, userId, workspaceId, equipmentIds, lateFine, status) => {
-  const paymentId = uuid.v4();
+  const id = uuid.v4();
   const timestamp = new Date().toISOString();
 
   const params = {
     TableName: 'payments',
     Item: {
-      paymentId,
+      id,
       timestamp,
       amount,
       userId,

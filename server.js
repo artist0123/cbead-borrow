@@ -41,11 +41,11 @@ app.get("/borrow", (req, res) => {
 });
 
 // Get a single borrowing by ID
-app.get("/borrow/:borrowId", (req, res) => {
+app.get("/borrow/:id", (req, res) => {
   const params = {
     TableName: tableName,
     Key: {
-      borrowId: req.params.borrowId,
+      id: req.params.id,
     },
   };
 
@@ -70,12 +70,12 @@ app.post("/books/borrow", async (req, res) => {
   try {
     const borrowedBooks = [];
     for (const bookId of bookIds) {
-      // Generate a unique borrowId
-      const borrowId = uuidv4();
+      // Generate a unique id
+      const id = uuidv4();
 
       // Add a new borrow record for the book
       const borrowRecord = {
-        borrowId,
+        id,
         userId,
         bookId,
         borrowDate,
@@ -102,7 +102,7 @@ app.post("/books/borrow", async (req, res) => {
       const data = await dynamoDb.update(bookParams).promise();
       borrowedBooks.push({
         ...data.Attributes,
-        borrowId,
+        id,
         userId,
         borrowDate,
         dueDate,
@@ -196,11 +196,11 @@ app.post("/books/return", async (req, res) => {
 });
 
 // Delete a borrowing
-app.delete("/borrow/:borrowId", (req, res) => {
+app.delete("/borrow/:id", (req, res) => {
   const params = {
     TableName: tableName,
     Key: {
-      borrowId: req.params.borrowId,
+      id: req.params.id,
     },
   };
 
