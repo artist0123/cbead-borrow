@@ -21,6 +21,41 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = "borrow";
 
+app.get('/borrow', async (req, res) => {
+  const params = {
+      TableName: tableName,  // Replace with your actual DynamoDB table name
+  };
+
+  try {
+      const data = await dynamodb.scan(params).promise();
+      res.json(data.Items);
+  } catch (err) {
+      res.status(500).json({ error: err.toString() });
+  }
+});
+
+app.get('/borrow/user', async (req, res) => {
+  const userId = req.query.userId;
+
+  const params = {
+      TableName: tableName,  // Replace with your actual DynamoDB table name
+      FilterExpression: '#userId = :userId',
+      ExpressionAttributeNames: {
+          '#userId': 'userId',
+      },
+      ExpressionAttributeValues: {
+          ':userId': userId,
+      },
+  };
+
+  try {
+      const data = await dynamodb.scan(params).promise();
+      res.json(data.Items);
+  } catch (err) {
+      res.status(500).json({ error: err.toString() });
+  }
+});
+
 app.post("/borrow", async (req, res) => {
   const model = req.body;
 
