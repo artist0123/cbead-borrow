@@ -80,13 +80,13 @@ app.post("/borrow", async (req, res) => {
   }
 });
 
-app.put("/borrow", async (req, res) => {
+app.put("/borrow/:id", async (req, res) => {
   const model = req.body;
 
   const params = {
     TableName: tableName, // Replace with your actual DynamoDB table name
     Key: {
-      id: model.id,
+      id: req.params.id,
     },
     UpdateExpression:
       "set #status = :s, borrow_date = :bd, due_date = :dd, late = :l, userId = :uid, booksId = :bid",
@@ -113,6 +113,6 @@ app.put("/borrow", async (req, res) => {
 
 // ... (previous code)
 
-app.listen(port, () => {
+app.listen(3000, () => {
   console.log(`Server is running on port ${port}`);
 });
