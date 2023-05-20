@@ -34,8 +34,8 @@ app.get('/borrow', async (req, res) => {
   }
 });
 
-app.get('/borrow/user', async (req, res) => {
-  const userId = req.query.userId;
+app.get('/borrow/user/:userId', async (req, res) => {
+  const userId = req.params.userId;
 
   const params = {
       TableName: tableName,  // Replace with your actual DynamoDB table name
